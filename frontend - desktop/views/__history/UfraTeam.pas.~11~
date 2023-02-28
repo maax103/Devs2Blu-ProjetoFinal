@@ -1,0 +1,90 @@
+unit UfraTeam;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
+  FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.ListView, FMX.Objects, FMX.Controls.Presentation, FMX.Layouts,
+
+  UEntity.Teams, UService.Team;
+
+type
+  TfraTeam = class(TFrame)
+    rectPrincipal: TRectangle;
+    lytPrincipal: TLayout;
+    rectToolbar: TRectangle;
+    rectNovo: TRectangle;
+    rectExcluir: TRectangle;
+    Label1: TLabel;
+    Label2: TLabel;
+    imgLogo: TImage;
+    lstTimes: TListView;
+  private
+    procedure AbrirTeamRegistry;
+    procedure CarregarRegistros;
+    procedure ExcluirRegistro;
+    procedure PreencherTeams(aTeam : TTeam);
+    { Private declarations }
+  public
+    constructor Create(aOwner : TComponent); override;
+    { Public declarations }
+  end;
+
+var
+  fraTeam : TfraTeam;
+
+implementation
+
+uses
+  UfraTeam.Registry,
+  UService.Intf;
+
+{$R *.fmx}
+
+{ TfraTeam }
+
+procedure TfraTeam.AbrirTeamRegistry;
+begin
+  if not Assigned(fraTeamRegistry) then
+    fraTeamRegistry := TfraTeamRegistry.Create(Application);
+
+    fraTeamRegistry.Align := TAlignLayout.Center;
+
+    Self.Parent.AddObject(fraTeamRegistry);
+    FreeAndNil(fraTeam);
+end;
+
+procedure TfraTeam.CarregarRegistros;
+var
+  xServiceTeam: IService;
+  xTeam : TTeam;
+begin
+  lstTimes.Items.Clear;
+
+  xServiceTeam := TServiceTeam.Create;
+  xServiceTeam.Listar;
+
+  for xTeam in TServiceTeam(xServiceTeam).Teams do
+    Self.PreencherTeams(xTeam);
+end;
+
+constructor TfraTeam.Create(aOwner: TComponent);
+begin
+  inherited Create(aOwner);
+  Self.CarregarRegistros;
+
+end;
+
+procedure TfraTeam.ExcluirRegistro;
+begin
+
+end;
+
+procedure TfraTeam.PreencherTeams(aTeam: TTeam);
+begin
+
+end;
+
+end.

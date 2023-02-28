@@ -1,0 +1,83 @@
+unit UfraMatch;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
+  FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.ListView, FMX.Objects, FMX.Controls.Presentation, FMX.Layouts,
+
+  UEntity.Matchs;
+
+type
+  TfraMatch = class(TFrame)
+    rectPrincipal: TRectangle;
+    lytPrincipal: TLayout;
+    rectToolbar: TRectangle;
+    rectNovo: TRectangle;
+    rectExcluir: TRectangle;
+    Label1: TLabel;
+    Label2: TLabel;
+    imgLogo: TImage;
+    lstPartidas: TListView;
+  private
+    procedure CarregarRegistros;
+    procedure AbrirMatchRegistry;
+    procedure PreparaListView(aMatch: TMatch);
+    procedure ExcluirRegistro;
+  public
+    constructor Create(aOwner : TComponent); override;
+  end;
+
+var
+  fraMatch : TfraMatch;
+
+implementation
+
+{$R *.fmx}
+
+uses
+  UfraMatch.Registry,
+  UService.Intf,
+  UService.Match;
+
+{ TfraMatch }
+
+procedure TfraMatch.AbrirMatchRegistry;
+begin
+
+end;
+
+procedure TfraMatch.CarregarRegistros;
+begin
+
+end;
+
+constructor TfraMatch.Create(aOwner: TComponent);
+begin
+  inherited;
+
+end;
+
+procedure TfraMatch.ExcluirRegistro;
+begin
+
+end;
+
+procedure TfraMatch.PreparaListView(aMatch: TMatch);
+var
+  xItem : TListViewItem;
+begin
+  xItem := lstPartidas.Items.Add;
+  xItem.Tag := aMatch.Id;
+
+  TListItemText(xItem.Objects.FindDrawable('txtHora')).Text := TimeToStr(aMatch.Hour);
+  TListItemText(xItem.Objects.FindDrawable('txtData')).Text := DateToStr(aMatch.Date);
+  TListItemText(xItem.Objects.FindDrawable('txtTimeA')).Text := aMatch.TeamA.Name;
+  TListItemText(xItem.Objects.FindDrawable('txtTimeB')).Text := aMatch.TeamB.Name;
+  TListItemText(xItem.Objects.FindDrawable('txtResultadoTimeA')).Text := aMatch.ResultTeamA.ToString;
+  TListItemText(xItem.Objects.FindDrawable('txtResultadoTimeB')).Text := aMatch.ResultTeamB.ToString;
+end;
+
+end.
